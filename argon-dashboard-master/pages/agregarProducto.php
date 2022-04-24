@@ -1,4 +1,20 @@
-<?php include('../assets/crud/bd.php') ?>
+<?php
+   session_start();
+   include('../assets/crud/bd.php') ;
+   
+   if(isset($_SESSION['user']))
+   { 
+         
+       $userEmail = $_SESSION['user']['email']; 
+
+   }
+   else{
+   
+     header("Location: sign-in.php");
+   
+   }
+     
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -6,6 +22,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
   <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
   <link rel="icon" type="image/png" href="../assets/img/favicon.png">
   <title>
@@ -48,24 +65,22 @@
                     Dashboard
                   </a>
                 </li>
+
+                <li class="nav-item">
+                  <a class="nav-link me-2" href="../pages/productos.php">
+                  <i class="fas fa-box opacity-6 text-dark me-1"></i>                  
+                  Productos
+                  </a>
+                </li>
                 <li class="nav-item">
                   <a class="nav-link me-2" href="../pages/profile.php">
                     <i class="fa fa-user opacity-6 text-dark me-1"></i>
                     Profile
                   </a>
                 </li>
-                <li class="nav-item">
-                  <a class="nav-link me-2" href="../pages/sign-up.php">
-                    <i class="fas fa-user-circle opacity-6 text-dark me-1"></i>
-                    Sign Up
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link me-2" href="../pages/sign-in.php">
-                    <i class="fas fa-key opacity-6 text-dark me-1"></i>
-                    Sign In
-                  </a>
-                </li>
+              
+
+              
               </ul>
               <ul class="navbar-nav d-lg-block d-none">
                 <li class="nav-item">
@@ -163,6 +178,7 @@
   <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
   <script src="../assets/js/argon-dashboard.min.js?v=2.0.2"></script>
   <script src="../assets/js/crud.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 </body>
 

@@ -43,5 +43,8 @@ class ConexionBD
     { 
         trigger_error('La clonación de este objeto no está permitida', E_USER_ERROR); 
     }
+     public static function jwt($id,$email){
+
+     } 
 }
 ?>

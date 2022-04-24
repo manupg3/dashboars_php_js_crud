@@ -5643,8 +5643,20 @@ fieldset:disabled .btn {
 .card-link+.card-link {
   margin-left: 1rem;
 }
-
+.add-product-page-products{
+  position: absolute;
+  right: 26px;
+  font-weight: 600;
+  border: 1px solid;
+  border-radius: 8px;
+  padding-left: 16px;
+  padding-right: 16px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  margin-top: -8px;
+}
 .card-header {
+  display: flex;
   padding: 0.5rem 1rem;
   margin-bottom: 0;
   background-color: #fff;
@@ -22229,7 +22241,7 @@ hr.horizontal.gray-light {
 .navbar-vertical.navbar-expand-xs .navbar-collapse {
   display: block;
   overflow: auto;
-  height: calc(100vh - 360px);
+ /* height: calc(100vh - 360px);*/
 }
 
 .navbar-vertical.navbar-expand-xs>[class*="container"] {

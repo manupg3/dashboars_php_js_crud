@@ -29,6 +29,8 @@ $.ajax({
    contentType:false,
    processData:false,
    success:function(response){
+    let textoAlerta = "Añadido";
+    MostrarAlerta(textoAlerta);
       traerUltimosProductos();
      console.log("Respuesta",response);
    }
@@ -64,6 +66,8 @@ formData.append('precio', precio_mod);
       contentType:false,
       processData:false,
       success:function(response){
+         let textoAlerta = "Producto Modificado";
+         MostrarAlerta(textoAlerta);
          setTimeout(() => {
             traerProductos();
         }, 300);        
@@ -103,6 +107,31 @@ var element = $(this)[0].parentElement.parentElement;
    
   
   });
+
+  $(document).on('click','.eliminar',function(e){
+    var element = $(this)[0].parentElement.parentElement;
+      let id = $(element).attr('id_Mod');
+      console.log("ID ELIMINAR",id);
+
+      $.ajax({
+       url:'../assets/crud/eliminar.php',
+       method: 'POST',
+       data:{id: id},
+       success:function(response){
+         let textoAlerta="Producto Eliminado";
+         traerProductos();
+         MostrarAlerta(textoAlerta);
+         console.log("RESPONSE DELETE",response);
+    
+       }
+    
+    }); 
+       
+      
+      });
+
+
+
    function traerProductos(){
       $.ajax({
          url:'../assets/crud/product-list.php',
@@ -111,6 +140,27 @@ var element = $(this)[0].parentElement.parentElement;
            let arrProducts = JSON.parse(response);
            console.log("Respuesta Traer Productos",arrProducts);
            let template = '';
+           if(arrProducts.length == 0){
+
+              template += ` 
+       
+                            <tr>
+                               <td style="padding-top:20px;padding-left:20px;">No hay productos que mostrar...</td>
+                              
+                              
+                               </tr>
+                
+              `
+         
+   
+      
+             $('#table-products').html(template);
+          
+           }
+  
+           
+
+           else{ 
            arrProducts.forEach(product => {
             template += ` 
      
@@ -197,9 +247,9 @@ var element = $(this)[0].parentElement.parentElement;
   </div>
 </div>
 
-                              <a  id="eliminar" name="eliminar" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
-                               | Eliminar
-                              </a>
+                              <button style="background:transparent;border:none;"  id="eliminar" name="eliminar" class="eliminar text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
+                               Eliminar
+                              </button>
                             </td>
                           </tr>
 
@@ -215,6 +265,8 @@ var element = $(this)[0].parentElement.parentElement;
            $('#table-products').html(template);
         
          }
+
+        }
       });     
    }
 
@@ -252,7 +304,71 @@ var element = $(this)[0].parentElement.parentElement;
       });
    }
 
-});    
+});  
+
+function logOut(){
+
+  
+
+  $.ajax({
+    url:'../assets/crud/logOut.php',
+    type: 'POST',
+    success:function(response){
+  console.log("Response log out",response);
+      if(response){
+        
+        window.location.href = 'sign-in.php';
+
+
+      }
+
+      
+  }
+
+ });
+
+
+}
+
+function logIn(){
+  let email = $('#email').val();
+  let password = $('#password').val();
+    let user ={
+      email:email,
+      password:password
+    };
+  console.log("Email",email);
+  console.log("Password",password);
+
+  $.ajax({
+    url:'../assets/crud/validarLogin.php',
+    type: 'POST',
+    data:user,
+    success:function(response){
+      if(response !="No encontro al usuario"){
+      let textoAlert = "¡Iniciando session...!"
+      setTimeout(() => {
+
+        window.location.href = 'dashboard.php';
+
+      }, 2100);
+
+      MostrarAlertaLogin(textoAlert);
+      console.log("Respuesta",response);
+    }
+    else{
+      let textoAlert = "¡No se encontro el usuario!";
+      MostrarAlertaLogin(textoAlert);
+
+    }
+  }
+
+ });
+
+
+}
+
+
 $('#formModificarProducto').submit(function(e){
    $.ajax({
       url:'../assets/crud/editarProducto.php',
@@ -264,3 +380,84 @@ $('#formModificarProducto').submit(function(e){
       }
    });
  });
+
+
+function MostrarAlertaLogin(textoAlerta){
+  let timerInterval
+Swal.fire({
+  title: textoAlerta,
+  html: 'I will close in <b></b> milliseconds.',
+  timer: 2000,
+  timerProgressBar: true,
+  didOpen: () => {
+    Swal.showLoading()
+    const b = Swal.getHtmlContainer().querySelector('b')
+    timerInterval = setInterval(() => {
+      b.textContent = Swal.getTimerLeft()
+    }, 100)
+  },
+  willClose: () => {
+    clearInterval(timerInterval)
+  }
+}).then((result) => {
+  /* Read more about handling dismissals below */
+  if (result.dismiss === Swal.DismissReason.timer) {
+    console.log('I was closed by the timer')
+  }
+})
+}
+ function MostrarConfirmacionLogout(){
+  const swalWithBootstrapButtons = Swal.mixin({
+    customClass: {
+      confirmButton: 'btn btn-success',
+      cancelButton: 'btn btn-danger'
+    },
+    buttonsStyling: false
+  })
+  
+  swalWithBootstrapButtons.fire({
+    title: 'Are you sure?',
+    text: "You won't be able to revert this!",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'Yes, delete it!',
+    cancelButtonText: 'No, cancel!',
+    reverseButtons: true
+  }).then((result) => {
+    if (result.isConfirmed) {
+        logOut();
+        alert("logout");
+    } else if (
+      /* Read more about handling dismissals below */
+      result.dismiss === Swal.DismissReason.cancel
+    ) {
+      swalWithBootstrapButtons.fire(
+        'Cancelled',
+        'Your imaginary file is safe :)',
+        'error'
+      )
+    }
+  })
+
+ }
+ function MostrarAlerta(textoAlerta){
+
+  const Toast = Swal.mixin({
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 2000,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+      toast.addEventListener('mouseenter', Swal.stopTimer)
+      toast.addEventListener('mouseleave', Swal.resumeTimer)
+    }
+  })
+  
+  Toast.fire({
+    icon: 'success',
+    title: textoAlerta
+  })
+ }
+
+ 
