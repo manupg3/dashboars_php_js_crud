@@ -87,6 +87,7 @@ var element = $(this)[0].parentElement.parentElement;
    url:'../assets/crud/product-list.php',
    method: 'GET',
    success:function(response){
+     console.log("Productos Para Parsear",response);
      let arrProducts = JSON.parse(response);
       for (let i = 0; i < arrProducts.length; i++) {
          if(arrProducts[i].id == id){
@@ -386,7 +387,6 @@ function MostrarAlertaLogin(textoAlerta){
   let timerInterval
 Swal.fire({
   title: textoAlerta,
-  html: 'I will close in <b></b> milliseconds.',
   timer: 2000,
   timerProgressBar: true,
   didOpen: () => {
@@ -416,27 +416,19 @@ Swal.fire({
   })
   
   swalWithBootstrapButtons.fire({
-    title: 'Are you sure?',
-    text: "You won't be able to revert this!",
+    title: '¿Seguro quieres cerrar sesion?',
     icon: 'warning',
     showCancelButton: true,
-    confirmButtonText: 'Yes, delete it!',
-    cancelButtonText: 'No, cancel!',
+    confirmButtonText: '¡Si, cerrar sesion!',
+    cancelButtonText: '¡No, cancelar!',
     reverseButtons: true
   }).then((result) => {
     if (result.isConfirmed) {
         logOut();
-        alert("logout");
     } else if (
       /* Read more about handling dismissals below */
       result.dismiss === Swal.DismissReason.cancel
-    ) {
-      swalWithBootstrapButtons.fire(
-        'Cancelled',
-        'Your imaginary file is safe :)',
-        'error'
-      )
-    }
+    ); 
   })
 
  }

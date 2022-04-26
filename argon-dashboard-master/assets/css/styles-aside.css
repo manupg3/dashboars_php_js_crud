@@ -6,6 +6,11 @@ ul.dropdowm-aside{
     z-index: 999;
     left: 0;
   }
+  .button-close
+  {
+     background: transparent;
+     border: none;
+  }
   ul li:hover ul.dropdowm-aside{
     display: block;
     /* left: 158px; */

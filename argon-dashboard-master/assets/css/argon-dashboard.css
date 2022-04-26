@@ -4481,6 +4481,12 @@ fieldset:disabled .btn {
   border-radius: 0.5rem;
 }
 
+.search-div {
+  max-height: 46px;
+}
+.search-input.active {
+  z-index: 1000;
+}
 .dropdown-menu[data-bs-popper] {
   top: 100%;
   left: 0;
@@ -21972,7 +21978,10 @@ hr.horizontal.gray-light {
 .separator.separator-skew {
   height: 70px;
 }
-
+.button-set-p
+{
+  margin-left: 10px;
+}
 .separator .fill-default {
   fill: #172b4d;
 }
@@ -21982,7 +21991,7 @@ hr.horizontal.gray-light {
 }
 
 .card.card-profile-bottom {
-  margin-top: 15rem;
+  margin-top: 1rem;
 }
 
 .navbar {
